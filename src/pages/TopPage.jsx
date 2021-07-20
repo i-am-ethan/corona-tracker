@@ -1,11 +1,14 @@
 import Title from "../components/Title"
 import Selector from "../components/Selector"
+import Results from "../components/Results"
 
-const TopPage = () => {
+const TopPage = (props) => {
+    console.log(props);
     return(
         <>
             <Title />
-            <Selector />
+            <Selector countriesJson={props.countriesJson} setCountry={props.setCountry} getCountryData={props.getCountryData} />
+            <Results />
         </>
     )
 }
