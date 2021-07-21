@@ -6,6 +6,7 @@ import WorldPage  from "./pages/WorldPage";
 import './App.css';
 
 function App() {
+  const [loading, setLoading] = useState(false);
   const [country, setCountry] = useState("");
   const [countryData, setCountryData] = useState({
     data:"",
@@ -16,7 +17,9 @@ function App() {
   })
   const [allCountriesData, setAllCountriesData] = useState([]);
 
+
     const getCountryData = () => {
+      setLoading(true);
         fetch(`http://api.covid19api.com/country/${country}`)
         .then(res => res.json())
         .then(data =>{
@@ -27,19 +30,23 @@ function App() {
             newRecovered:data[data.length -1].Recovered - data[data.length -2].Recovered,
             totalRecovered: data[data.length -1].Recovered
           });
+          setLoading(false);
         })
+        .catch(err => alert("エラーが発生しました。ページをリロードして、もう一度トライしてください。"))
+
     }
 
     useEffect(()=>{  
         fetch("https://api.covid19api.com/summary")
         .then(res => res.json())
         .then(data => setAllCountriesData(data.Countries))
+        .catch(err => alert("エラーが発生しました。ページをリロードして、もう一度トライしてください。"))
   }, [])
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <TopPage countriesJson={countriesJson} setCountry={setCountry} getCountryData={getCountryData} countryData={countryData}/>
+          <TopPage countriesJson={countriesJson} setCountry={setCountry} getCountryData={getCountryData} countryData={countryData} loading={loading}/>
         </Route>
         <Route exact path="/world">
         <WorldPage allCountriesData={allCountriesData}/>

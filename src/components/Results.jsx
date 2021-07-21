@@ -1,15 +1,19 @@
-const Results = (props) => {
-    console.log(props)
+import Loading from "./Loading";
+
+const Results = ({countryData, loading}) => {
+    const {data, newConfirmed, newRecovered, totalConfirmed, totalRecovered} = countryData;
     return(
         <>
         <div className="results-container">
-            <div>
-                <p>日付：{props.countryData.data.slice(0,10)}</p>
-                <p>新規感染者：{props.countryData.newConfirmed.toLocaleString()}</p>
-                <p>感染者数：{props.countryData.newRecovered.toLocaleString()}</p>
-                <p>新規回復者：{props.countryData.totalConfirmed.toLocaleString()}</p>
-                <p>回復者総数：{props.countryData.totalRecovered.toLocaleString()}</p>
-            </div>
+            {loading ? <Loading /> : 
+                <div>
+                    <p>日付：{data.slice(0,10)}</p>
+                    <p>新規感染者：{newConfirmed.toLocaleString()}</p>
+                    <p>感染者数：{newRecovered.toLocaleString()}</p>
+                    <p>新規回復者：{totalConfirmed.toLocaleString()}</p>
+                    <p>回復者総数：{totalRecovered.toLocaleString()}</p>
+                </div>
+            }
         </div>
 
         </>
